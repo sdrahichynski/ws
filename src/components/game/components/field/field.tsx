@@ -32,6 +32,7 @@ const Field: React.FC<FieldProps> = ({ value, onChange }) => {
           <div className={styles.row} key={rowIndex}>
             {row.map((cell, cellIndex) => (
               <div
+                key={cellIndex}
                 className={styles.cell}
                 onMouseDown={handleClick(rowIndex * size + cellIndex)}
                 style={{ backgroundColor: cell }}

@@ -14,9 +14,10 @@ const Colorpicker: React.FC<ColorpickerProps> = ({ value, onChange }) => {
     <div className={styles.wrapper}>
       {consts.COLORS.map((color) => (
         <div
+          key={color}
           className={cx(styles.colorItem, { [styles.active]: color === value })}
           style={{ backgroundColor: color }}
-          onClick={() => onChange(color)}
+          onMouseDown={() => onChange(color)}
         />
       ))}
     </div>
