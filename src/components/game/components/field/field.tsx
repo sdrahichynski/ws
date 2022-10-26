@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./field.module.scss";
+import {Colorpicker} from "./components";
 
 interface FieldProps {
   value: string[];
@@ -8,6 +9,7 @@ interface FieldProps {
 }
 
 const Field: React.FC<FieldProps> = ({ value, onChange }) => {
+  const [color, setColor] = React.useState("#ea1e23");
   const size = Math.floor(Math.sqrt(value.length));
   const fieldValue = new Array(size)
     .fill(null)
@@ -17,23 +19,27 @@ const Field: React.FC<FieldProps> = ({ value, onChange }) => {
     (index: number): React.MouseEventHandler =>
     () => {
       const newValue = [...value];
-      newValue[index] = "red";
+      newValue[index] = color;
       onChange(newValue);
     };
 
   return (
     <div className={styles.wrapper}>
-      {fieldValue.map((row, rowIndex) => (
-        <div className={styles.row} key={rowIndex}>
-          {row.map((cell, cellIndex) => (
-            <div
-              className={styles.cell}
-              onMouseDown={handleClick(rowIndex * size + cellIndex)}
-              style={{ backgroundColor: cell }}
-            />
-          ))}
-        </div>
-      ))}
+      <Colorpicker value={color} onChange={setColor} />
+
+      <div className={styles.field}>
+        {fieldValue.map((row, rowIndex) => (
+          <div className={styles.row} key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <div
+                className={styles.cell}
+                onMouseDown={handleClick(rowIndex * size + cellIndex)}
+                style={{ backgroundColor: cell }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
