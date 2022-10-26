@@ -6,8 +6,9 @@ import * as C from "components";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <C.App />
+    <C.Game />
   </React.StrictMode>
 );
