@@ -4,15 +4,17 @@ import styles from "./game.module.css";
 import {io, Socket} from "socket.io-client";
 import { consts } from "./duck";
 
-interface GameProps {}
+interface GameProps {
+  id: string;
+}
 
-const Game: React.FC<GameProps> = () => {
+const Game: React.FC<GameProps> = ({ id }) => {
   const [value, setValue] = React.useState<string[]>([]);
   const socketRef = React.useRef<Socket | null>(null);
 
   React.useEffect(() => {
     if (!process.env.REACT_APP_WS) return;
-    const socketClient = io(process.env.REACT_APP_WS, { transports: ["websocket"]});
+    const socketClient = io(process.env.REACT_APP_WS + `/game`, { transports: ["websocket"]});
 
     socketClient.on("connect", () => {
       console.log("connected");
@@ -29,9 +31,10 @@ const Game: React.FC<GameProps> = () => {
     <div className={styles.wrapper}>
       <LC.Field
         value={value}
-        onChange={(newValue: typeof consts.DEFAULT_VALUE) => {
-          socketRef.current?.emit("UPDATE_VALUE", newValue);
-          setValue(newValue)
+        onChange={({ index, color }) => {
+          const newValue = [...value.slice(0, index), color, ...value.slice(index + 1)];
+          socketRef.current?.emit("UPDATE_VALUE", { index, color });
+          setValue(newValue);
         }}
       />
     </div>

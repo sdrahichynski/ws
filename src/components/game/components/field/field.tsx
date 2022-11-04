@@ -5,7 +5,7 @@ import {Colorpicker} from "./components";
 interface FieldProps {
   value: string[];
 
-  onChange(value: string[]): void;
+  onChange(value: {index: number, color: string}): void;
 }
 
 const Field: React.FC<FieldProps> = ({ value, onChange }) => {
@@ -18,9 +18,7 @@ const Field: React.FC<FieldProps> = ({ value, onChange }) => {
   const handleClick =
     (index: number): React.MouseEventHandler =>
     () => {
-      const newValue = [...value];
-      newValue[index] = color;
-      onChange(newValue);
+      onChange({index, color});
     };
 
   return (
