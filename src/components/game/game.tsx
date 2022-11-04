@@ -7,14 +7,15 @@ import { consts } from "./duck";
 interface GameProps {}
 
 const Game: React.FC<GameProps> = () => {
-  const [value, setValue] = React.useState(consts.DEFAULT_VALUE);
+  const [value, setValue] = React.useState<string[]>([]);
   const socketRef = React.useRef<Socket | null>(null);
 
   React.useEffect(() => {
-    const socketClient = io("ws://localhost:3001");
+    if (!process.env.REACT_APP_WS) return;
+    const socketClient = io(process.env.REACT_APP_WS, { transports: ["websocket"]});
 
     socketClient.on("connect", () => {
-      console.log("connect");
+      console.log("connected");
     });
 
     socketClient.on("NEW_VALUE", (data) => {
@@ -29,7 +30,6 @@ const Game: React.FC<GameProps> = () => {
       <LC.Field
         value={value}
         onChange={(newValue: typeof consts.DEFAULT_VALUE) => {
-          console.log(socketRef.current);
           socketRef.current?.emit("UPDATE_VALUE", newValue);
           setValue(newValue)
         }}
