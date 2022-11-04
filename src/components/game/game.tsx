@@ -2,13 +2,10 @@ import * as React from "react";
 import * as LC from "./components";
 import styles from "./game.module.css";
 import {io, Socket} from "socket.io-client";
-import { consts } from "./duck";
 
-interface GameProps {
-  id: string;
-}
+interface GameProps {}
 
-const Game: React.FC<GameProps> = ({ id }) => {
+const Game: React.FC<GameProps> = () => {
   const [value, setValue] = React.useState<string[]>([]);
   const socketRef = React.useRef<Socket | null>(null);
 
