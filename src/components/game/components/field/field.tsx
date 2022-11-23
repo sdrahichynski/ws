@@ -15,11 +15,7 @@ const Field: React.FC<FieldProps> = ({ value, onChange }) => {
     .fill(null)
     .map((_, index) => value.slice(index * size, (index + 1) * size));
 
-  const handleClick =
-    (index: number): React.MouseEventHandler =>
-    () => {
-      onChange({index, color});
-    };
+  const handleClick = (index: number) => onChange({index, color});
 
   return (
     <div className={styles.wrapper}>
@@ -32,7 +28,7 @@ const Field: React.FC<FieldProps> = ({ value, onChange }) => {
               <div
                 key={cellIndex}
                 className={styles.cell}
-                onMouseDown={handleClick(rowIndex * size + cellIndex)}
+                onMouseDown={() => handleClick(rowIndex * size + cellIndex)}
                 style={{ backgroundColor: cell }}
               />
             ))}

@@ -21,6 +21,12 @@ const Game: React.FC<GameProps> = () => {
       data && setValue(data);
     });
 
+    socketClient.on("UPDATE_VALUE", ({ index, color }) => {
+      setValue((oldValue) => {
+        return [...oldValue.slice(0, index), color, ...oldValue.slice(index + 1)];
+      });
+    });
+
     socketRef.current = socketClient;
   }, []);
 
@@ -29,9 +35,8 @@ const Game: React.FC<GameProps> = () => {
       <LC.Field
         value={value}
         onChange={({ index, color }) => {
-          const newValue = [...value.slice(0, index), color, ...value.slice(index + 1)];
           socketRef.current?.emit("UPDATE_VALUE", { index, color });
-          setValue(newValue);
+          setValue(oldValue => [...value.slice(0, index), color, ...value.slice(index + 1)]);
         }}
       />
     </div>
