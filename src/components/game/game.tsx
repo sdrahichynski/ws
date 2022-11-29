@@ -28,6 +28,14 @@ const Game: React.FC<GameProps> = () => {
     });
 
     socketRef.current = socketClient;
+
+    // for some magic
+    //@ts-ignore
+    window.SOKET = socketClient;
+    //@ts-ignore
+    window.HELP = () => {
+      socketClient.emit("RUN_BOT!");
+    }
   }, []);
 
   return (
@@ -36,7 +44,7 @@ const Game: React.FC<GameProps> = () => {
         value={value}
         onChange={({ index, color }) => {
           socketRef.current?.emit("UPDATE_VALUE", { index, color });
-          setValue(oldValue => [...value.slice(0, index), color, ...value.slice(index + 1)]);
+          setValue(oldValue => [...oldValue.slice(0, index), color, ...value.slice(index + 1)]);
         }}
       />
     </div>
