@@ -1,0 +1,21 @@
+.input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  outline: none;
+  border-top: 1px solid #DFE4E7;
+  background-color: transparent;
+
+  &:focus {
+    border-top: 1px solid dodgerblue;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #A4A7AA;
+  }
+
+  transition: border-top-color .2s;
+}
